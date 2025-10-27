@@ -14,6 +14,6 @@ pub async fn test() -> Json<serde_json::Value> {
     info!("Handling request.");
     Json(json!({
         "code" : 200,
-        "message" : "Hellow world"
+        "message" : "Server is operating."
     }))
 }

@@ -3,9 +3,10 @@ FROM rust:1.80 AS compiletime
 WORKDIR /app
 
 COPY ./Cargo.lock ./Cargo.toml /app/
-COPY ./src /app/src
+RUN cargo fetch --locked
 
-RUN cargo build --release -j 4
+COPY ./src /app/src
+RUN cargo build --release --locked -j 4
 
 FROM debian:bookworm-slim
 

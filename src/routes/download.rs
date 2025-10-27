@@ -6,8 +6,10 @@ use axum::{
 use mime_guess;
 use std::{fs::File, io::Read, path::PathBuf};
 use log::{
-    info, error, debug
+    info, error
 };
+#[cfg(debug_assertions)]
+use log::debug;
 
 /// # File Download API written in RUST.
 /// 
@@ -47,6 +49,7 @@ pub async fn download(Path(path): Path<PathBuf>) -> Response {
         Ok(mut file) => {
             let mut buf = Vec::new();
             if let Err(_) = file.read_to_end(&mut buf) {
+                error!("Read error occur!");
                 return (StatusCode::INTERNAL_SERVER_ERROR, "Read error").into_response();
             }
             let mime = mime_guess::from_path(&full_path).first_or_octet_stream();
